@@ -127,6 +127,7 @@ const layoutHead = (title) => html`
       <title>${title}</title>
       <link rel="stylesheet" href="/public/styles.css" />
     </head>
+  </html>
 `;
 
 const pageStart = (title, current) => html`
@@ -150,6 +151,8 @@ const pageStart = (title, current) => html`
           </a>
         </nav>
       </header>
+    </div>
+  </body>
 `;
 
 const pageEnd = html`
@@ -161,14 +164,14 @@ const pageEnd = html`
 const dpuInitialCode = html`
   <div class="media-frame hero-media">
     <?start name="hero-asset">
-      <p class="loading">Streaming hero image...</p>
+    <p class="loading">Streaming hero image...</p>
     <?end>
   </div>
 
   <section class="panel asset-panel">
     <h2>Streamed public assets</h2>
     <?start name="asset-strip">
-      <p class="loading">Waiting for images from public/...</p>
+    <p class="loading">Waiting for images from public/...</p>
     <?end>
   </section>
 `;
@@ -186,7 +189,10 @@ const dpuStreamedCode = html`
       <img src="/public/divider_image.png" alt="Divider sample asset" />
     </a>
     <a href="https://github.com/nyaomaru/changelog-bot">
-      <img src="/public/changelogbot_image.png" alt="ChangelogBot sample asset" />
+      <img
+        src="/public/changelogbot_image.png"
+        alt="ChangelogBot sample asset"
+      />
     </a>
   </template>
 `;
@@ -195,68 +201,67 @@ const streamHome = async (res) => {
   writeHTML(res);
   res.write(html`
     ${pageStart("DPU document streaming sample", "home")}
-      <main>
-        <section class="hero">
-          <div class="hero-copy">
-            <p class="eyebrow">Document streaming</p>
-            <h1>Declarative Partial Updates</h1>
-            <p class="lead">
-              The initial document is visible immediately. Slow server-rendered
-              fragments arrive later as <code>&lt;template for="..."&gt;</code>
-              chunks and replace named DPU ranges without client-side DOM code.
-            </p>
-          </div>
-          <div class="media-frame hero-media">
-            <?start name="hero-asset">
-              <p class="loading">Streaming hero image...</p>
-            <?end>
-          </div>
-        </section>
-
-        <section class="grid" aria-label="Streamed panels">
-          <article class="panel">
-            <h2>Recommendations</h2>
-            <?start name="recommendations">
-              <p class="loading">Waiting for recommendations...</p>
-            <?end>
-          </article>
-
-          <article class="panel">
-            <h2>Team activity</h2>
-            <?start name="activity">
-              <p class="loading">Waiting for activity...</p>
-            <?end>
-          </article>
-
-          <article class="panel">
-            <h2>Metric</h2>
-            <?start name="metric">
-              <p class="loading">Waiting for metric...</p>
-            <?end>
-          </article>
-        </section>
-
-        <section class="panel asset-panel">
-          <h2>Streamed public assets</h2>
-          <?start name="asset-strip">
-            <p class="loading">Waiting for images from public/...</p>
-          <?end>
-        </section>
-
-        <section class="panel asset-panel">
-          <h2>Code visibility</h2>
-          <p class="muted">
-            Left is the initial DPU placeholder. Right is the streamed HTML that
-            replaced the named regions.
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Document streaming</p>
+          <h1>Declarative Partial Updates</h1>
+          <p class="lead">
+            The initial document is visible immediately. Slow server-rendered
+            fragments arrive later as <code>&lt;template for="..."&gt;</code>
+            chunks and replace named DPU ranges without client-side DOM code.
           </p>
-          <div class="code-grid">
-            ${codeBlock(dpuInitialCode)}
-            <?start name="streamed-code">
-              ${codeBlock("<template for=\"...\"> chunks are still streaming...")}
-            <?end>
-          </div>
-        </section>
-      </main>
+        </div>
+        <div class="media-frame hero-media">
+          <?start name="hero-asset">
+          <p class="loading">Streaming hero image...</p>
+          <?end>
+        </div>
+      </section>
+
+      <section class="grid" aria-label="Streamed panels">
+        <article class="panel">
+          <h2>Recommendations</h2>
+          <?start name="recommendations">
+          <p class="loading">Waiting for recommendations...</p>
+          <?end>
+        </article>
+
+        <article class="panel">
+          <h2>Team activity</h2>
+          <?start name="activity">
+          <p class="loading">Waiting for activity...</p>
+          <?end>
+        </article>
+
+        <article class="panel">
+          <h2>Metric</h2>
+          <?start name="metric">
+          <p class="loading">Waiting for metric...</p>
+          <?end>
+        </article>
+      </section>
+
+      <section class="panel asset-panel">
+        <h2>Streamed public assets</h2>
+        <?start name="asset-strip">
+        <p class="loading">Waiting for images from public/...</p>
+        <?end>
+      </section>
+
+      <section class="panel asset-panel">
+        <h2>Code visibility</h2>
+        <p class="muted">
+          Left is the initial DPU placeholder. Right is the streamed HTML that
+          replaced the named regions.
+        </p>
+        <div class="code-grid">
+          ${codeBlock(dpuInitialCode)} <?start name="streamed-code">
+          ${codeBlock('<template for="..."> chunks are still streaming...')}
+          <?end>
+        </div>
+      </section>
+    </main>
   `);
 
   await sleep(streamDelay.medium);
@@ -286,9 +291,7 @@ const streamHome = async (res) => {
       </div>
     </template>
 
-    <template for="streamed-code">
-      ${codeBlock(dpuStreamedCode)}
-    </template>
+    <template for="streamed-code"> ${codeBlock(dpuStreamedCode)} </template>
 
     <template for="recommendations">
       <ul class="list">
@@ -316,80 +319,80 @@ const streamSpaShell = (res) => {
   writeHTML(res);
   res.end(html`
     ${pageStart("DPU SPA shell sample", "spa")}
-      <main>
-        <section class="hero">
-          <div class="hero-copy">
-            <p class="eyebrow">SPA shell</p>
-            <h1>SPA shell, streamed HTML route updates</h1>
-            <p class="lead">
-              Buttons keep local client state, while route content is streamed as
-              HTML. When available, <code>streamHTMLUnsafe()</code> feeds the
-              fetched response body directly into the existing view.
-            </p>
-          </div>
-          <div class="media-frame hero-media">
-            ${imageMarkup({
-              ...publicAsset.divider,
-              alt: "Divider visual streamed from public",
-            })}
-          </div>
-        </section>
-
-        <section class="panel">
-          <h2>Client-owned state</h2>
-          <p>
-            Counter: <strong id="counter">0</strong>
-            <button id="increment" class="primary" type="button">Increment</button>
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">SPA shell</p>
+          <h1>SPA shell, streamed HTML route updates</h1>
+          <p class="lead">
+            Buttons keep local client state, while route content is streamed as
+            HTML. When available, <code>streamHTMLUnsafe()</code> feeds the
+            fetched response body directly into the existing view.
           </p>
-        </section>
+        </div>
+      </section>
 
-        <section class="toolbar" aria-label="SPA routes">
-          <button class="primary" type="button" data-route="dashboard">Dashboard</button>
-          <button type="button" data-route="reports">Reports</button>
-          <button type="button" data-route="settings">Settings</button>
-        </section>
+      <section class="panel">
+        <h2>Client-owned state</h2>
+        <p>
+          Counter: <strong id="counter">0</strong>
+          <button id="increment" class="primary" type="button">
+            Increment
+          </button>
+        </p>
+      </section>
 
-        <section id="spa-view" aria-live="polite">
-          <p class="loading">Waiting for streamed route content...</p>
-        </section>
-      </main>
+      <section class="toolbar" aria-label="SPA routes">
+        <button class="primary" type="button" data-route="dashboard">
+          Dashboard
+        </button>
+        <button type="button" data-route="reports">Reports</button>
+        <button type="button" data-route="settings">Settings</button>
+      </section>
 
-      <script type="module">
-        const counter = document.querySelector("#counter");
-        const view = document.querySelector("#spa-view");
+      <section id="spa-view" aria-live="polite">
+        <p class="loading">Waiting for streamed route content...</p>
+      </section>
+    </main>
 
-        document.querySelector("#increment").addEventListener("click", () => {
-          counter.textContent = String(Number(counter.textContent) + 1);
+    <script type="module">
+      const counter = document.querySelector("#counter");
+      const view = document.querySelector("#spa-view");
+
+      document.querySelector("#increment").addEventListener("click", () => {
+        counter.textContent = String(Number(counter.textContent) + 1);
+      });
+
+      const loadRoute = async (route) => {
+        const response = await fetch(\`/partials/spa/\${route}\`);
+        view.replaceChildren();
+
+        if ("streamHTMLUnsafe" in Element.prototype && response.body) {
+          await response.body
+            .pipeThrough(new TextDecoderStream())
+            .pipeTo(view.streamHTMLUnsafe());
+          return;
+        }
+
+        const text = await response.text();
+        const template = document.createElement("template");
+        template.innerHTML = text;
+        view.replaceChildren(template.content.cloneNode(true));
+      };
+
+      document.querySelectorAll("[data-route]").forEach((button) => {
+        button.addEventListener("click", () => {
+          document
+            .querySelectorAll("[data-route]")
+            .forEach((item) =>
+              item.classList.toggle("primary", item === button),
+            );
+          loadRoute(button.dataset.route);
         });
+      });
 
-        const loadRoute = async (route) => {
-          const response = await fetch(\`/partials/spa/\${route}\`);
-          view.replaceChildren();
-
-          if ("streamHTMLUnsafe" in Element.prototype && response.body) {
-            await response.body
-              .pipeThrough(new TextDecoderStream())
-              .pipeTo(view.streamHTMLUnsafe());
-            return;
-          }
-
-          const text = await response.text();
-          const template = document.createElement("template");
-          template.innerHTML = text;
-          view.replaceChildren(template.content.cloneNode(true));
-        };
-
-        document.querySelectorAll("[data-route]").forEach((button) => {
-          button.addEventListener("click", () => {
-            document
-              .querySelectorAll("[data-route]")
-              .forEach((item) => item.classList.toggle("primary", item === button));
-            loadRoute(button.dataset.route);
-          });
-        });
-
-        loadRoute("dashboard");
-      </script>
+      loadRoute("dashboard");
+    </script>
     ${pageEnd}
   `);
 };
@@ -448,9 +451,7 @@ const streamSpaPartial = async (res, route) => {
 
   await sleep(streamDelay.fast);
   res.end(html`
-    <div class="media-frame">
-      ${imageMarkup(data.asset)}
-    </div>
+    <div class="media-frame">${imageMarkup(data.asset)}</div>
     <p class="muted">A delayed image chunk arrived after the route body.</p>
   `);
 };
@@ -459,68 +460,62 @@ const streamHtmlApiPage = (res) => {
   writeHTML(res);
   res.end(html`
     ${pageStart("Static and Streaming HTML API sample", "api")}
-      <main>
-        <section class="hero">
-          <div class="hero-copy">
-            <p class="eyebrow">HTML insertion</p>
-            <h1>Static and Streaming HTML APIs</h1>
-            <p class="lead">
-              This page tries the new insertion names directly:
-              <code>setHTMLUnsafe()</code> for static HTML and
-              <code>streamHTMLUnsafe()</code> for streamed HTML. It falls back to
-              older APIs so the demo still shows what would be inserted.
-            </p>
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">HTML insertion</p>
+          <h1>Static and Streaming HTML APIs</h1>
+          <p class="lead">
+            This page tries the new insertion names directly:
+            <code>setHTMLUnsafe()</code> for static HTML and
+            <code>streamHTMLUnsafe()</code> for streamed HTML. It falls back to
+            older APIs so the demo still shows what would be inserted.
+          </p>
+        </div>
+      </section>
+
+      <section class="grid">
+        <article class="panel">
+          <h2>Static insertion</h2>
+          <div id="static-target">
+            <p class="loading">Click static insert.</p>
           </div>
-          <div class="media-frame hero-media">
-            ${imageMarkup({
-              ...publicAsset.changelogBot,
-              alt: "ChangelogBot visual streamed from public",
-            })}
+          <button id="static-button" class="primary" type="button">
+            Static insert
+          </button>
+        </article>
+
+        <article class="panel">
+          <h2>Streaming insertion</h2>
+          <div id="stream-target">
+            <p class="loading">Click stream HTML.</p>
           </div>
-        </section>
+          <button id="stream-button" class="primary" type="button">
+            Stream HTML
+          </button>
+        </article>
 
-        <section class="grid">
-          <article class="panel">
-            <h2>Static insertion</h2>
-            <div id="static-target">
-              <p class="loading">Click static insert.</p>
-            </div>
-            <button id="static-button" class="primary" type="button">
-              Static insert
-            </button>
-          </article>
+        <article class="panel">
+          <h2>API support</h2>
+          <div id="support"></div>
+        </article>
+      </section>
+    </main>
 
-          <article class="panel">
-            <h2>Streaming insertion</h2>
-            <div id="stream-target">
-              <p class="loading">Click stream HTML.</p>
-            </div>
-            <button id="stream-button" class="primary" type="button">
-              Stream HTML
-            </button>
-          </article>
+    <script type="module">
+      const staticTarget = document.querySelector("#static-target");
+      const streamTarget = document.querySelector("#stream-target");
+      const support = document.querySelector("#support");
 
-          <article class="panel">
-            <h2>API support</h2>
-            <div id="support"></div>
-          </article>
-        </section>
-      </main>
-
-      <script type="module">
-        const staticTarget = document.querySelector("#static-target");
-        const streamTarget = document.querySelector("#stream-target");
-        const support = document.querySelector("#support");
-
-        support.innerHTML = \`
+      support.innerHTML = \`
           <ul class="list">
             <li>setHTMLUnsafe: \${"setHTMLUnsafe" in Element.prototype}</li>
             <li>streamHTMLUnsafe: \${"streamHTMLUnsafe" in Element.prototype}</li>
           </ul>
         \`;
 
-        document.querySelector("#static-button").addEventListener("click", () => {
-          const markup = \`
+      document.querySelector("#static-button").addEventListener("click", () => {
+        const markup = \`
             <ul class="list">
               <li>Inserted with the new static HTML API when available.</li>
               <li>Fallback path uses replaceChildren() plus a template.</li>
@@ -536,17 +531,19 @@ const streamHtmlApiPage = (res) => {
             </div>
           \`;
 
-          if ("setHTMLUnsafe" in Element.prototype) {
-            staticTarget.setHTMLUnsafe(markup);
-            return;
-          }
+        if ("setHTMLUnsafe" in Element.prototype) {
+          staticTarget.setHTMLUnsafe(markup);
+          return;
+        }
 
-          const template = document.createElement("template");
-          template.innerHTML = markup;
-          staticTarget.replaceChildren(template.content.cloneNode(true));
-        });
+        const template = document.createElement("template");
+        template.innerHTML = markup;
+        staticTarget.replaceChildren(template.content.cloneNode(true));
+      });
 
-        document.querySelector("#stream-button").addEventListener("click", async () => {
+      document
+        .querySelector("#stream-button")
+        .addEventListener("click", async () => {
           const response = await fetch("/partials/html-api-stream");
 
           streamTarget.replaceChildren();
@@ -562,7 +559,7 @@ const streamHtmlApiPage = (res) => {
           template.innerHTML = await response.text();
           streamTarget.replaceChildren(template.content.cloneNode(true));
         });
-      </script>
+    </script>
     ${pageEnd}
   `);
 };
@@ -575,6 +572,7 @@ const streamHtmlApiPartial = async (res) => {
         <h3>Chunk 1</h3>
         <p>The first HTML chunk rendered before the full response completed.</p>
       </div>
+    </div>
   `);
 
   await sleep(streamDelay.slow);
@@ -605,10 +603,10 @@ const notFound = (res) => {
   writeHTML(res, 404);
   res.end(html`
     ${pageStart("Not found", "")}
-      <main class="panel">
-        <h1>Not found</h1>
-        <p class="lead">No sample exists for this URL.</p>
-      </main>
+    <main class="panel">
+      <h1>Not found</h1>
+      <p class="lead">No sample exists for this URL.</p>
+    </main>
     ${pageEnd}
   `);
 };
