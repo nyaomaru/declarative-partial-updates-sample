@@ -5,6 +5,7 @@ import { extname, join, normalize, relative } from "node:path";
 import { html, imageSize } from "./shared.mjs";
 
 const publicDir = join(process.cwd(), "public");
+const notFound = (res) => res.writeHead(404).end("Not found");
 
 export const publicAsset = {
   isKit: {
@@ -61,14 +62,14 @@ export const streamPublicFile = async (res, pathname) => {
   const relativePath = relative(publicDir, filePath);
 
   if (relativePath.startsWith("..") || relativePath === "") {
-    res.writeHead(404).end("Not found");
+    notFound(res);
     return;
   }
 
   try {
     const fileStat = await stat(filePath);
     if (!fileStat.isFile()) {
-      res.writeHead(404).end("Not found");
+      notFound(res);
       return;
     }
 
@@ -81,6 +82,6 @@ export const streamPublicFile = async (res, pathname) => {
     });
     createReadStream(filePath).pipe(res);
   } catch {
-    res.writeHead(404).end("Not found");
+    notFound(res);
   }
 };

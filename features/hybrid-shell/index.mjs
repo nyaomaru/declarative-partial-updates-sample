@@ -4,10 +4,16 @@ import { pageEnd, pageStart } from "../layout.mjs";
 import { imageMarkup, publicAsset } from "../public-assets.mjs";
 import { renderTemplateFile, streamTiming, writeHTML } from "../shared.mjs";
 
+const templatePath = {
+  page: "features/hybrid-shell/page.html",
+  routeBody: "features/hybrid-shell/route-body.html",
+  routeImage: "features/hybrid-shell/route-image.html",
+};
+
 export const streamHybridShell = async (res) => {
   writeHTML(res);
   res.end(
-    await renderTemplateFile("features/hybrid-shell/page.html", {
+    await renderTemplateFile(templatePath.page, {
       pageStart: await pageStart(
         "DPU hybrid shell streaming sample",
         "hybrid-shell",
@@ -52,7 +58,7 @@ export const streamHybridShellPartial = async (res, route) => {
   writeHTML(res);
 
   res.write(
-    await renderTemplateFile("features/hybrid-shell/route-body.html", {
+    await renderTemplateFile(templatePath.routeBody, {
       title: data.title,
       first: data.first,
       second: data.second,
@@ -62,7 +68,7 @@ export const streamHybridShellPartial = async (res, route) => {
 
   await sleep(streamTiming.firstChunk);
   res.end(
-    await renderTemplateFile("features/hybrid-shell/route-image.html", {
+    await renderTemplateFile(templatePath.routeImage, {
       routeImage: imageMarkup(data.asset),
     }),
   );

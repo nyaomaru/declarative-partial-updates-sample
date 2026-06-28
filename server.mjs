@@ -21,6 +21,18 @@ const handleAsync = (res, task) => {
   });
 };
 
+const staticRoutes = new Map([
+  ["/", streamHome],
+  ["/set-apis", streamSetApisPage],
+]);
+
+const partialRoutes = new Map([
+  ["/partials/set-apis/static", streamSetApisStaticPartial],
+  ["/partials/set-apis/stream", streamSetApisStreamPartial],
+]);
+
+const routeFromPathname = (pathname) => pathname.split("/").at(-1);
+
 createServer((req, res) => {
   const url = new URL(req.url ?? "/", `http://${req.headers.host}`);
 
@@ -29,8 +41,9 @@ createServer((req, res) => {
     return;
   }
 
-  if (url.pathname === "/") {
-    handleAsync(res, () => streamHome(res));
+  const staticRoute = staticRoutes.get(url.pathname);
+  if (staticRoute) {
+    handleAsync(res, () => staticRoute(res));
     return;
   }
 
@@ -43,23 +56,14 @@ createServer((req, res) => {
   }
 
   if (url.pathname.startsWith("/partials/hybrid-shell/")) {
-    const route = url.pathname.split("/").at(-1);
+    const route = routeFromPathname(url.pathname);
     handleAsync(res, () => streamHybridShellPartial(res, route));
     return;
   }
 
-  if (url.pathname === "/set-apis") {
-    handleAsync(res, () => streamSetApisPage(res));
-    return;
-  }
-
-  if (url.pathname === "/partials/set-apis/static") {
-    handleAsync(res, () => streamSetApisStaticPartial(res));
-    return;
-  }
-
-  if (url.pathname === "/partials/set-apis/stream") {
-    handleAsync(res, () => streamSetApisStreamPartial(res));
+  const partialRoute = partialRoutes.get(url.pathname);
+  if (partialRoute) {
+    handleAsync(res, () => partialRoute(res));
     return;
   }
 
