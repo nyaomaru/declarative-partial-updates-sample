@@ -1,7 +1,7 @@
 {
   "functions": {
     "api/index.mjs": {
-      "includeFiles": ["features/**", "public/**"]
+      "includeFiles": "{features,public}/**"
     }
   },
   "rewrites": [
