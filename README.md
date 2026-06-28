@@ -11,6 +11,16 @@ Styles live in `public/styles.css`. `server.mjs` keeps stream delays, image
 dimensions, public assets, and GitHub links in constants so the sample behavior
 is easier to inspect and adjust.
 
+The server is split by feature:
+
+- `features/home/`: DPU document streaming sample HTML and stream chunks
+- `features/spa/`: SPA shell HTML and route partial HTML
+- `features/set-apis/`: static and streaming HTML insertion sample HTML
+- `features/public-assets.mjs`: public asset metadata and stream handler
+- `features/layout/`: shared document layout HTML
+- `features/layout.mjs`: layout template renderer
+- `features/shared.mjs`: common helpers and demo timing constants
+
 ## Run
 
 ```bash
@@ -20,8 +30,8 @@ npm start
 Open:
 
 - <http://localhost:3000/>: DPU document streaming sample
-- <http://localhost:3000/spa>: SPA shell with streamed HTML partials
-- <http://localhost:3000/html-api>: Static / Streaming HTML API sample
+- <http://localhost:3000/spa>: SPA routes with streamed HTML partials
+- <http://localhost:3000/set-apis>: Set APIs and streaming HTML sample
 
 ## Chrome Flags
 
@@ -68,7 +78,9 @@ streamed template markup that replaced it.
 
 ### `/spa`
 
-Client-owned state, such as the counter, stays in JavaScript. Route content is
+Client-owned state, such as the counter, stays in JavaScript. Route navigation
+uses the History API, so `/spa/dashboard`, `/spa/reports`, and `/spa/settings`
+can be entered directly or reached without a full page reload. Route content is
 returned by the server as trusted HTML partials. In supporting browsers,
 `streamHTMLUnsafe()` streams the response body directly into the DOM.
 
@@ -80,7 +92,7 @@ updating a DPU range. Because of that, this sample demonstrates the new
 streaming HTML insertion API for SPA-style updates rather than DPU range
 replacement inside the SPA.
 
-### `/html-api`
+### `/set-apis`
 
 This page exercises the new static and streaming HTML insertion APIs mentioned
 in the Chrome article.

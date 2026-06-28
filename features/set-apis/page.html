@@ -1,0 +1,45 @@
+{{pageStart}}
+<main>
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">HTML insertion</p>
+      <h1>Set APIs and streaming HTML</h1>
+      <p class="lead">
+        This page tries the new insertion names directly:
+        <code>setHTMLUnsafe()</code> for static HTML and
+        <code>streamHTMLUnsafe()</code> for streamed HTML. It falls back to
+        older APIs so the demo still shows what would be inserted.
+      </p>
+    </div>
+  </section>
+
+  <section class="grid">
+    <article class="panel">
+      <h2>Static insertion</h2>
+      <div id="static-target">
+        <p class="loading">Click static insert.</p>
+      </div>
+      <button id="static-button" class="primary" type="button">
+        Static insert
+      </button>
+    </article>
+
+    <article class="panel">
+      <h2>Streaming insertion</h2>
+      <div id="stream-target">
+        <p class="loading">Click stream HTML.</p>
+      </div>
+      <button id="stream-button" class="primary" type="button">
+        Stream HTML
+      </button>
+    </article>
+
+    <article class="panel">
+      <h2>API support</h2>
+      <div id="support"></div>
+    </article>
+  </section>
+</main>
+
+<script type="module" src="/public/set-apis.js"></script>
+{{pageEnd}}
