@@ -291,7 +291,7 @@ p {
   margin-bottom: 0.75rem;
 }
 
-#spa-view,
+#hybrid-shell-view,
 #static-target,
 #stream-target {
   min-height: 11.875rem;

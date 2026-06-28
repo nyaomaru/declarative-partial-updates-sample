@@ -1,5 +1,5 @@
 const counter = document.querySelector("#counter");
-const view = document.querySelector("#spa-view");
+const view = document.querySelector("#hybrid-shell-view");
 const routeButtons = [...document.querySelectorAll("[data-route]")];
 const routes = new Set(routeButtons.map((button) => button.dataset.route));
 
@@ -23,11 +23,13 @@ const loadRoute = async (route, { push = false } = {}) => {
 
   if (push) {
     const nextUrl =
-      route === "dashboard" ? "/spa/dashboard" : `/spa/${route}`;
+      route === "dashboard"
+        ? "/hybrid-shell/dashboard"
+        : `/hybrid-shell/${route}`;
     window.history.pushState({ route }, "", nextUrl);
   }
 
-  const response = await fetch(`/partials/spa/${route}`);
+  const response = await fetch(`/partials/hybrid-shell/${route}`);
   view.replaceChildren();
 
   if ("streamHTMLUnsafe" in Element.prototype && response.body) {
@@ -52,4 +54,6 @@ window.addEventListener("popstate", () => {
   loadRoute(routeFromLocation());
 });
 
-loadRoute(routeFromLocation(), { push: window.location.pathname === "/spa" });
+loadRoute(routeFromLocation(), {
+  push: window.location.pathname === "/hybrid-shell",
+});

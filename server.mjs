@@ -9,7 +9,10 @@ import { streamHome } from "./features/home/index.mjs";
 import { notFound } from "./features/not-found.mjs";
 import { streamPublicFile } from "./features/public-assets.mjs";
 import { host, port } from "./features/shared.mjs";
-import { streamSpaPartial, streamSpaShell } from "./features/spa/index.mjs";
+import {
+  streamHybridShell,
+  streamHybridShellPartial,
+} from "./features/hybrid-shell/index.mjs";
 
 const handleAsync = (res, task) => {
   task().catch((error) => {
@@ -31,14 +34,17 @@ createServer((req, res) => {
     return;
   }
 
-  if (url.pathname === "/spa" || url.pathname.startsWith("/spa/")) {
-    handleAsync(res, () => streamSpaShell(res));
+  if (
+    url.pathname === "/hybrid-shell" ||
+    url.pathname.startsWith("/hybrid-shell/")
+  ) {
+    handleAsync(res, () => streamHybridShell(res));
     return;
   }
 
-  if (url.pathname.startsWith("/partials/spa/")) {
+  if (url.pathname.startsWith("/partials/hybrid-shell/")) {
     const route = url.pathname.split("/").at(-1);
-    handleAsync(res, () => streamSpaPartial(res, route));
+    handleAsync(res, () => streamHybridShellPartial(res, route));
     return;
   }
 

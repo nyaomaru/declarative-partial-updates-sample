@@ -4,7 +4,8 @@ export const pageStart = (title, current) =>
   renderTemplateFile("features/layout/page-start.html", {
     title,
     homeCurrent: current === "home" ? 'aria-current="page"' : "",
-    spaCurrent: current === "spa" ? 'aria-current="page"' : "",
+    hybridShellCurrent:
+      current === "hybrid-shell" ? 'aria-current="page"' : "",
     setApisCurrent: current === "set-apis" ? 'aria-current="page"' : "",
   });
 

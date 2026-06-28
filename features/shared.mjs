@@ -10,8 +10,9 @@ export const imageSize = {
 };
 
 export const streamTiming = {
-  firstChunk: 500,
-  step: 300,
+  firstChunk: 1000,
+  step: 1000,
+  assetPhase: 500,
 };
 
 export const html = (strings, ...values) =>
@@ -39,7 +40,10 @@ export const readTemplate = async (path) =>
   readFile(join(process.cwd(), path), "utf8");
 
 export const renderTemplate = (template, values = {}) =>
-  template.replaceAll(/\{\{([a-zA-Z0-9_]+)\}\}/g, (_, key) => values[key] ?? "");
+  template.replaceAll(
+    /\{\{([a-zA-Z0-9_]+)\}\}/g,
+    (_, key) => values[key] ?? "",
+  );
 
 export const renderTemplateFile = async (path, values = {}) =>
   renderTemplate(await readTemplate(path), values);

@@ -4,17 +4,20 @@ import { pageEnd, pageStart } from "../layout.mjs";
 import { imageMarkup, publicAsset } from "../public-assets.mjs";
 import { renderTemplateFile, streamTiming, writeHTML } from "../shared.mjs";
 
-export const streamSpaShell = async (res) => {
+export const streamHybridShell = async (res) => {
   writeHTML(res);
   res.end(
-    await renderTemplateFile("features/spa/page.html", {
-      pageStart: await pageStart("DPU SPA shell sample", "spa"),
+    await renderTemplateFile("features/hybrid-shell/page.html", {
+      pageStart: await pageStart(
+        "DPU hybrid shell streaming sample",
+        "hybrid-shell",
+      ),
       pageEnd: await pageEnd(),
     }),
   );
 };
 
-const spaData = {
+const routeData = {
   dashboard: {
     title: "Dashboard",
     first: "Revenue, deploy health, and support load are server-rendered HTML.",
@@ -44,12 +47,12 @@ const spaData = {
   },
 };
 
-export const streamSpaPartial = async (res, route) => {
-  const data = spaData[route] ?? spaData.dashboard;
+export const streamHybridShellPartial = async (res, route) => {
+  const data = routeData[route] ?? routeData.dashboard;
   writeHTML(res);
 
   res.write(
-    await renderTemplateFile("features/spa/route-body.html", {
+    await renderTemplateFile("features/hybrid-shell/route-body.html", {
       title: data.title,
       first: data.first,
       second: data.second,
@@ -59,7 +62,7 @@ export const streamSpaPartial = async (res, route) => {
 
   await sleep(streamTiming.firstChunk);
   res.end(
-    await renderTemplateFile("features/spa/route-image.html", {
+    await renderTemplateFile("features/hybrid-shell/route-image.html", {
       routeImage: imageMarkup(data.asset),
     }),
   );

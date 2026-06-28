@@ -14,6 +14,7 @@ import {
 } from "../shared.mjs";
 
 export const streamHome = async (res) => {
+  const startedAt = performance.now();
   writeHTML(res);
   res.write(
     await renderTemplateFile("features/home/page.html", {
@@ -34,22 +35,38 @@ export const streamHome = async (res) => {
         ...publicAsset.isKit,
         alt: "is-kit visual streamed from public",
       }),
+      metricMs: Math.round(performance.now() - startedAt),
     }),
   );
 
   await sleep(streamTiming.step);
   res.write(
-    await renderTemplateFile(
-      "features/home/chunk-assets-and-recommendations.html",
-      {
-        isKitLink: linkedImageMarkup(publicAsset.isKit),
-        dividerLink: linkedImageMarkup(publicAsset.divider),
-        changelogBotLink: linkedImageMarkup(publicAsset.changelogBot),
-        dpuStreamedCodeBlock: codeBlock(
-          await renderTemplateFile("features/home/dpu-streamed-code.html"),
-        ),
-      },
-    ),
+    await renderTemplateFile("features/home/chunk-asset-link.html", {
+      assetLink: linkedImageMarkup(publicAsset.isKit),
+    }),
+  );
+
+  await sleep(streamTiming.assetPhase);
+  res.write(
+    await renderTemplateFile("features/home/chunk-asset-link.html", {
+      assetLink: linkedImageMarkup(publicAsset.divider),
+    }),
+  );
+
+  await sleep(streamTiming.assetPhase);
+  res.write(
+    await renderTemplateFile("features/home/chunk-asset-link.html", {
+      assetLink: linkedImageMarkup(publicAsset.changelogBot),
+    }),
+  );
+
+  await sleep(streamTiming.assetPhase);
+  res.write(
+    await renderTemplateFile("features/home/chunk-assets-and-recommendations.html", {
+      dpuStreamedCodeBlock: codeBlock(
+        await renderTemplateFile("features/home/dpu-streamed-code.html"),
+      ),
+    }),
   );
 
   await sleep(streamTiming.step);
