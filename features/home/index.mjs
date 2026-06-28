@@ -1,11 +1,7 @@
 import { setTimeout as sleep } from "node:timers/promises";
 
 import { pageEnd, pageStart } from "../layout.mjs";
-import {
-  imageMarkup,
-  linkedImageMarkup,
-  publicAsset,
-} from "../public-assets.mjs";
+import { linkedImageMarkup, publicAsset } from "../public-assets.mjs";
 import {
   codeBlock,
   renderTemplateFile,
@@ -42,10 +38,13 @@ export const streamHome = async (res) => {
   await sleep(streamTiming.firstChunk);
   res.write(
     await renderTemplateFile(templatePath.heroAndMetric, {
-      heroImage: imageMarkup({
-        ...publicAsset.isKit,
-        alt: "is-kit visual streamed from public",
-      }),
+      heroImage: linkedImageMarkup(
+        {
+          ...publicAsset.isKit,
+          alt: "is-kit visual streamed from public",
+        },
+        "media-link",
+      ),
       metricMs: Math.round(performance.now() - startedAt),
     }),
   );

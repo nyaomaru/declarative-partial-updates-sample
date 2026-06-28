@@ -356,6 +356,18 @@ a.media-frame:focus-visible {
   outline: none;
 }
 
+.media-link {
+  display: block;
+  width: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.media-link:focus-visible {
+  outline: 0.125rem solid hsl(var(--primary));
+  outline-offset: 0.25rem;
+}
+
 .stream-image {
   display: block;
   width: 100%;

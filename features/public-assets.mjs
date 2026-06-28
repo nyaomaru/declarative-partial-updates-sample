@@ -50,8 +50,8 @@ export const imageMarkup = (asset, className = "stream-image") => html`
   />
 `;
 
-export const linkedImageMarkup = (asset) => html`
-  <a class="media-frame" href="${asset.href}" aria-label="${asset.label}">
+export const linkedImageMarkup = (asset, className = "media-frame") => html`
+  <a class="${className}" href="${asset.href}" aria-label="${asset.label}">
     ${imageMarkup(asset)}
   </a>
 `;

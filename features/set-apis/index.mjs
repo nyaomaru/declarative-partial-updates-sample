@@ -1,7 +1,7 @@
 import { setTimeout as sleep } from "node:timers/promises";
 
 import { pageEnd, pageStart } from "../layout.mjs";
-import { imageMarkup, publicAsset } from "../public-assets.mjs";
+import { linkedImageMarkup, publicAsset } from "../public-assets.mjs";
 import { renderTemplateFile, streamTiming, writeHTML } from "../shared.mjs";
 
 const templatePath = {
@@ -29,10 +29,13 @@ export const streamSetApisStaticPartial = async (res) => {
   writeHTML(res);
   res.end(
     await renderTemplateFile(templatePath.staticInsertion, {
-      staticImage: imageMarkup({
-        ...publicAsset.isKit,
-        alt: "is-kit static insertion asset",
-      }),
+      staticImage: linkedImageMarkup(
+        {
+          ...publicAsset.isKit,
+          alt: "is-kit static insertion asset",
+        },
+        "media-frame inset-media",
+      ),
     }),
   );
 };
@@ -44,7 +47,7 @@ export const streamSetApisStreamPartial = async (res) => {
   await sleep(streamTiming.firstChunk);
   res.write(
     await renderTemplateFile(templatePath.streamMiddle, {
-      streamImage: imageMarkup({
+      streamImage: linkedImageMarkup({
         ...publicAsset.divider,
         alt: "Divider image streamed from public",
       }),

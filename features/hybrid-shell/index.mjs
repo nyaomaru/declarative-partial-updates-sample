@@ -1,7 +1,7 @@
 import { setTimeout as sleep } from "node:timers/promises";
 
 import { pageEnd, pageStart } from "../layout.mjs";
-import { imageMarkup, publicAsset } from "../public-assets.mjs";
+import { linkedImageMarkup, publicAsset } from "../public-assets.mjs";
 import { renderTemplateFile, streamTiming, writeHTML } from "../shared.mjs";
 
 const templatePath = {
@@ -69,7 +69,7 @@ export const streamHybridShellPartial = async (res, route) => {
   await sleep(streamTiming.firstChunk);
   res.end(
     await renderTemplateFile(templatePath.routeImage, {
-      routeImage: imageMarkup(data.asset),
+      routeImage: linkedImageMarkup(data.asset, "media-frame stream-fragment"),
     }),
   );
 };

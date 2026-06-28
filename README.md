@@ -55,7 +55,9 @@ Or you can set manually on browser below link:
 `chrome://flags/#enable-experimental-web-platform-features`
 
 <div align="center">
+  <a href="https://raw.githubusercontent.com/nyaomaru/declarative-partial-updates-sample/main/public/chrome_experimental_flag_enable.png">
     <img src="https://raw.githubusercontent.com/nyaomaru/declarative-partial-updates-sample/main/public/chrome_experimental_flag_enable.png" width="600px" align="center" alt="chrome experimental flag enable" />
+  </a>
 </div>
 
 ## Samples
