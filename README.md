@@ -6,9 +6,10 @@ Updates (DPU) feature.
 Images under `public/` are served through the Node.js stream handler at `/public/...`,
 then inserted from later DPU or HTML streaming chunks.
 
-Styles live in `public/styles.css`. `server.mjs` keeps stream delays, image
-dimensions, public assets, and GitHub links in constants so the sample behavior
-is easier to inspect and adjust.
+Styles live in `public/styles.css`. Shared timing and image constants live in
+`features/shared.mjs`, while public asset metadata and GitHub links live in
+`features/public-assets.mjs` so the sample behavior is easier to inspect and
+adjust.
 
 The server is split by feature:
 
@@ -19,6 +20,7 @@ The server is split by feature:
 - `features/layout/`: shared document layout HTML
 - `features/layout.mjs`: layout template renderer
 - `features/shared.mjs`: common helpers and demo timing constants
+- `public/html-stream.js`: client-side static / streaming HTML insertion helper
 
 ## Run
 

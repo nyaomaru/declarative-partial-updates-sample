@@ -1,3 +1,9 @@
+import { streamHTML } from "/public/html-stream.js";
+
+const shellPath = "/hybrid-shell";
+const partialPath = "/partials/hybrid-shell";
+const defaultRoute = "dashboard";
+
 const counter = document.querySelector("#counter");
 const view = document.querySelector("#hybrid-shell-view");
 const routeButtons = [...document.querySelectorAll("[data-route]")];
@@ -9,7 +15,7 @@ document.querySelector("#increment").addEventListener("click", () => {
 
 const routeFromLocation = () => {
   const route = window.location.pathname.split("/").filter(Boolean).at(1);
-  return routes.has(route) ? route : "dashboard";
+  return routes.has(route) ? route : defaultRoute;
 };
 
 const setActiveRoute = (route) => {
@@ -23,25 +29,13 @@ const loadRoute = async (route, { push = false } = {}) => {
 
   if (push) {
     const nextUrl =
-      route === "dashboard"
-        ? "/hybrid-shell/dashboard"
-        : `/hybrid-shell/${route}`;
+      route === defaultRoute
+        ? `${shellPath}/${defaultRoute}`
+        : `${shellPath}/${route}`;
     window.history.pushState({ route }, "", nextUrl);
   }
 
-  const response = await fetch(`/partials/hybrid-shell/${route}`);
-  view.replaceChildren();
-
-  if ("streamHTMLUnsafe" in Element.prototype && response.body) {
-    await response.body
-      .pipeThrough(new TextDecoderStream())
-      .pipeTo(view.streamHTMLUnsafe());
-    return;
-  }
-
-  const template = document.createElement("template");
-  template.innerHTML = await response.text();
-  view.replaceChildren(template.content.cloneNode(true));
+  await streamHTML(view, await fetch(`${partialPath}/${route}`));
 };
 
 routeButtons.forEach((button) => {
@@ -55,5 +49,5 @@ window.addEventListener("popstate", () => {
 });
 
 loadRoute(routeFromLocation(), {
-  push: window.location.pathname === "/hybrid-shell",
+  push: window.location.pathname === shellPath,
 });
