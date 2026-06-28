@@ -1,0 +1,53 @@
+{{pageStart}}
+<main>
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Hybrid shell</p>
+      <h1>Hybrid shell with streamed HTML route updates</h1>
+      <p class="lead">
+        The URL changes through the History API, client-owned state stays in
+        the shell, and route content is streamed as trusted server-rendered
+        HTML.
+      </p>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Client-owned state</h2>
+    <div class="control-row">
+      <span>Counter: <strong id="counter">0</strong></span>
+      <button id="increment" class="primary" type="button">Increment</button>
+    </div>
+    <p class="muted">
+      This value is not reloaded when navigating between hybrid shell routes.
+    </p>
+  </section>
+
+  <section class="toolbar" aria-label="Hybrid shell routes">
+    <button
+      class="primary"
+      type="button"
+      data-route="dashboard"
+      data-url="/hybrid-shell/dashboard"
+    >
+      Dashboard
+    </button>
+    <button type="button" data-route="reports" data-url="/hybrid-shell/reports">
+      Reports
+    </button>
+    <button
+      type="button"
+      data-route="settings"
+      data-url="/hybrid-shell/settings"
+    >
+      Settings
+    </button>
+  </section>
+
+  <section id="hybrid-shell-view" aria-live="polite">
+    <p class="loading">Waiting for streamed route content...</p>
+  </section>
+</main>
+
+<script type="module" src="/public/hybrid-shell.js"></script>
+{{pageEnd}}

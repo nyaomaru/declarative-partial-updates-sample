@@ -1,0 +1,61 @@
+{{pageStart}}
+<main>
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Document streaming</p>
+      <h1>Declarative Partial Updates Sample</h1>
+      <p class="lead">
+        The initial document is visible immediately. Slow server-rendered
+        fragments arrive later as <code>&lt;template for="..."&gt;</code>
+        chunks and replace named DPU ranges without client-side DOM code.
+      </p>
+    </div>
+    <div class="media-frame hero-media">
+      <?start name="hero-asset">
+      <p class="loading">Streaming hero image...</p>
+      <?end>
+    </div>
+  </section>
+
+  <section class="grid" aria-label="Streamed panels">
+    <article class="panel">
+      <h2>Recommendations</h2>
+      <?start name="recommendations">
+      <p class="loading">Waiting for recommendations...</p>
+      <?end>
+    </article>
+
+    <article class="panel">
+      <h2>Team activity</h2>
+      <?start name="activity">
+      <p class="loading">Waiting for activity...</p>
+      <?end>
+    </article>
+
+    <article class="panel">
+      <h2>Metric</h2>
+      <?start name="metric">
+      <p class="loading">Waiting for metric...</p>
+      <?end>
+    </article>
+  </section>
+
+  <section class="panel asset-panel">
+    <h2>Streamed public assets</h2>
+    <div class="asset-grid">
+      <?marker name="asset-list">
+    </div>
+  </section>
+
+  <section class="panel asset-panel">
+    <h2>Code visibility</h2>
+    <p class="muted">
+      Left is the initial DPU placeholder. Right is the streamed HTML that
+      replaced the named regions.
+    </p>
+    <div class="code-grid">
+      {{dpuInitialCodeBlock}} <?start name="streamed-code">
+      {{streamingPlaceholderCodeBlock}} <?end>
+    </div>
+  </section>
+</main>
