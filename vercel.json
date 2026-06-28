@@ -1,0 +1,13 @@
+{
+  "functions": {
+    "api/index.mjs": {
+      "includeFiles": ["features/**", "public/**"]
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/api"
+    }
+  ]
+}

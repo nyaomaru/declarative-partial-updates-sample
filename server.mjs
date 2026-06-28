@@ -1,4 +1,5 @@
 import { createServer } from "node:http";
+import { fileURLToPath } from "node:url";
 
 import {
   streamSetApisPage,
@@ -33,7 +34,7 @@ const partialRoutes = new Map([
 
 const routeFromPathname = (pathname) => pathname.split("/").at(-1);
 
-createServer((req, res) => {
+export const handleRequest = (req, res) => {
   const url = new URL(req.url ?? "/", `http://${req.headers.host}`);
 
   if (url.pathname.startsWith("/public/")) {
@@ -68,6 +69,10 @@ createServer((req, res) => {
   }
 
   handleAsync(res, () => notFound(res));
-}).listen(port, host, () => {
-  console.log(`DPU samples: http://${host}:${port}`);
-});
+};
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  createServer(handleRequest).listen(port, host, () => {
+    console.log(`DPU samples: http://${host}:${port}`);
+  });
+}
