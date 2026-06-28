@@ -57,16 +57,24 @@ export const linkedImageMarkup = (asset) => html`
 `;
 
 export const streamPublicFile = async (res, pathname) => {
-  const requestedPath = decodeURIComponent(pathname.replace(/^\/public\//, ""));
-  const filePath = normalize(join(publicDir, requestedPath));
-  const relativePath = relative(publicDir, filePath);
+  let requestedPath;
 
-  if (relativePath.startsWith("..") || relativePath === "") {
+  try {
+    requestedPath = decodeURIComponent(pathname.replace(/^\/public\//, ""));
+  } catch {
     notFound(res);
     return;
   }
 
+  const filePath = normalize(join(publicDir, requestedPath));
+  const relativePath = relative(publicDir, filePath);
+
   try {
+    if (relativePath.startsWith("..") || relativePath === "") {
+      notFound(res);
+      return;
+    }
+
     const fileStat = await stat(filePath);
     if (!fileStat.isFile()) {
       notFound(res);
