@@ -56,11 +56,17 @@ Or you can set manually on browser below link:
 
 <div align="center">
   <a href="https://raw.githubusercontent.com/nyaomaru/declarative-partial-updates-sample/main/public/chrome_experimental_flag_enable.png">
-    <img src="https://raw.githubusercontent.com/nyaomaru/declarative-partial-updates-sample/main/public/chrome_experimental_flag_enable.png" width="600px" align="center" alt="chrome experimental flag enable" />
+    <img src="https://raw.githubusercontent.com/nyaomaru/declarative-partial-updates-sample/main/public/chrome_experimental_flag_enable.png" width="1200px" align="center" alt="chrome experimental flag enable" />
   </a>
 </div>
 
 ## Samples
+
+<div align="center">
+  <a href="https://raw.githubusercontent.com/nyaomaru/declarative-partial-updates-sample/main/public/declarative_partial_update_sample1.gif">
+    <img src="https://raw.githubusercontent.com/nyaomaru/declarative-partial-updates-sample/main/public/declarative_partial_update_sample1.gif" width="1200px" align="center" alt="declarative partial updates sample" />
+  </a>
+</div>
 
 ### `/`
 
