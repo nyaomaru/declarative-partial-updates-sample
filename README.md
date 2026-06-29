@@ -64,7 +64,7 @@ Or you can set manually on browser below link:
 
 <div align="center">
   <a href="https://raw.githubusercontent.com/nyaomaru/declarative-partial-updates-sample/main/public/declarative_partial_update_sample1.gif">
-    <img src="https://raw.githubusercontent.com/nyaomaru/declarative-partial-updates-sample/main/public/declarative_partial_update_sample1.gif" width="1200px" align="center" alt="declarative partial updates sample" />
+    <img src="https://raw.githubusercontent.com/nyaomaru/declarative-partial-updates-sample/main/public/declarative_partial_update_sample1.gif" width="800px" align="center" alt="declarative partial updates sample" />
   </a>
 </div>
 
